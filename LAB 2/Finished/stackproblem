@@ -1,0 +1,35 @@
+//stackproblem.c-Lab 02-Travis, Stephney
+
+#include <stdio.h>
+
+#define	EXIT_OK		0
+#define	EXIT_ERROR	-1
+    
+    char arr[80];           //original character array 
+    char rev[80];           //reversed character array
+    char ch;                //character entered
+    int pos=-1;             //position in the array
+    int rpos = 0;              //comparative legth of reversed array
+
+void reverse (void)         //reverse function that uses the values from the orignial array
+{                           //then traverses backwards to add them to the reversed array.                           
+    while(pos>=0){          //runs until the position in the array is at the front
+        rev[rpos]=arr[pos];    //sets array value equal to opposite position in reverse array
+        pos--;              
+        rpos++;                //decrement the position value, increment the reverse array position
+        
+    }
+}
+int main (void)
+{
+printf("Please type desired characters, then hit Enter for reverse of entry.\n");
+   while ((pos<80)&&((ch=getchar())!='\n')){        //run if position in array is less then 80 and if the character is not a new line
+        pos++;                                      //increment to note the length of the array increase
+        arr[pos]= ch;                               //set the character to the poistion in the array
+   }
+        reverse();                                  //run reverse function
+    for(int i=0;i<=rpos;i++){                       //print out reverse array one character at a time
+        putchar(rev[i]);
+        }
+    printf("\nProgram has finished running.\n");
+    }

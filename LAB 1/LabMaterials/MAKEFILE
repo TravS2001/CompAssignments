@@ -1,0 +1,11 @@
+all:	readtextv1.exe readtextv2.exe readtextv3.exe
+
+clean:
+	del *.obj
+	del *.exe
+
+readtextv1.exe:	readtextv1.c
+
+readtextv2.exe:	readtextv2.c
+
+readtextv3.exe:	readtextv3.c

@@ -1,0 +1,114 @@
+//queueproblem.c-Lab01-Travis,Stephney
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef unsigned int			uint, *puint;
+typedef enum {false=0, true}	bool, *pbool;
+
+// Description for queue.
+struct _queue	{
+	int		queue_size;		// Size of array holding queue
+	int		rear;			// Rear of queue
+	int		*queue_data;	// pointer to array holding queue data
+	};
+typedef struct _queue Queue, *pQueue;
+
+pQueue new_queue (int size)         //new queue function
+{
+	pQueue	pq = NULL;
+	int		*pint;
+	// first try to get enough memory for stack data
+	pint = (int *)malloc (size * sizeof(int));
+	// make sure we got some memory
+	if (pint == NULL)	return NULL;
+	pq = (pQueue)malloc (sizeof (struct _queue));       // second, get memory for queue
+	if (pq == NULL)	{           // didn't get that memory - give up the memory we did get
+		free (pint);
+		return NULL;
+		}
+	// Set up the descriptor for each queue
+	pq->queue_data = pint;		// point to where actual queue data goes
+	pq->queue_size = size;		// size of queue
+	pq->rear = size;		    //start queue at end.
+	
+	return pq;
+}
+
+bool is_empty (pQueue pq)       //queue is empty
+{
+	return pq->rear == pq->queue_size;
+}
+
+bool is_full (pQueue pq)        //queue is full
+{
+	return pq->rear == 0;
+}
+
+
+bool add_to_queue(pQueue pq, int value)
+{
+	if (pq == NULL ||is_full(pq) )	return false;
+	pq->rear = pq->rear - 1;                        //move data at end of queue forward
+	pq->queue_data [pq->rear] = value;              //put new data at the end of queue
+	return true;
+}
+
+void Print(pQueue pq)           //print queue function
+{
+	if (pq == NULL)	return;         
+	if (is_empty(pq))	{
+		printf ("\n<EMPTY STACK>\n");
+	} else	{
+		int i, j;
+		for (i=(pq->queue_size)-1,j=0; (pq->rear)-1< i; i--,j++)	{
+            if ((j % 12) == 0)		printf ("\n");
+			printf (" %5d", pq->queue_data [i]);
+			}
+		}
+}
+
+int main (void)
+{
+	 pQueue   Q1,Q2,Q3,Q4;      //set up four queues
+        Q1= new_queue(400);
+        Q2= new_queue(400);
+        Q3= new_queue(400);
+        Q4= new_queue(400);
+    
+    int num=0;
+    int rem=0;
+    
+    printf("Please type a number and press enter.\n");
+    scanf("%d",&num);
+    
+    while(num>=0){              //if negative, it will move to the next part of main
+        rem = num%4;            // setting the comparison value
+    switch(rem){
+        case 0:                         //if rem==0 it will ad to the queue with no remaiders
+            add_to_queue(Q1, num);
+            break;
+        case 1:                         //if rem==1 it will ad to the queue with remaider 1
+            add_to_queue(Q2, num);            
+            break;
+        case 2:                         //if rem==2 it will ad to the queue with remaider 2
+            add_to_queue(Q3, num);
+            break;
+        case 3:                         //if rem==3 it will ad to the queue with remaider 3
+            add_to_queue(Q4, num);
+            break;
+        default:
+			fprintf (stderr, "ERROR: Invalid command --%5d--\n", num);
+			break;
+        }
+    scanf("%d",&num);
+    }
+    //print queue with remainder 0 then 1 then 2 then 3.
+    Print(Q1);
+    Print(Q2);
+    Print(Q3);
+    Print(Q4);
+    printf("\nThanks. Goodbye\n");
+    
+    return 0;
+}
